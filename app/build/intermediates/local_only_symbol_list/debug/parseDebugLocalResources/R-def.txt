@@ -1,10 +1,16 @@
 R_DEF: Internal format may change without notice
 local
+raw breathe_in
+raw breathe_out
+raw countdown
+raw hold
 string app_name
 string btn_back_to_setup
 string btn_daily_history
 string btn_new_session
 string btn_next_inhale
+string btn_preview_recorded_cues
+string btn_preview_voice
 string btn_start_session
 string btn_stop_session
 string btn_view_daily_history
@@ -15,20 +21,26 @@ string cue_retention
 string detail_round_status
 string disclaimer
 string label_completed_retention
+string label_cue_volume
+string label_instruction_voice
 string label_no_completed_rounds
 string label_no_sessions_saved
+string label_phone_default
+string label_waiting_speech_engine
 string picker_breaths
 string picker_exhale
 string picker_inhale
 string picker_rounds
 string round_history_format
 string round_result_format
+string sample_voice_preview
 string sub_breath_count
 string sub_next_round_soon
 string sub_recovery_breath
 string sub_session_ending
 string sub_tap_next
 string subtitle_home
+string switch_recorded_cues
 string switch_voice
 string title_deep_inhale_hold
 string title_exhale_gently

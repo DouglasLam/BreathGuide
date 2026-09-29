@@ -8,8 +8,10 @@ import android.os.SystemClock;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.media.MediaPlayer;
 import android.content.SharedPreferences;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +22,10 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends Activity {
     private enum Phase { HOME, INHALE, EXHALE, RETENTION, RECOVERY, RELEASE, DONE, HISTORY }
@@ -36,24 +42,37 @@ public class MainActivity extends Activity {
     private boolean sessionSaved = false;
     private TextToSpeech speech;
     private boolean speechReady = false, voiceEnabled = true;
+    private LinearLayout voicePanel;
+    private final List<Voice> availableVoices = new ArrayList<>();
+    private String selectedVoiceName = "";
+    private float cueVolume = .55f;
+    private boolean breathSoundsEnabled = true;
+    private MediaPlayer recordedPlayer;
+    private boolean recoveryCountdownPlayed, recoveryHolding;
     private final Runnable ticker = new Runnable() { public void run() { advance(); handler.postDelayed(this, 100); } };
 
     @Override @SuppressWarnings("deprecation")
     public void onCreate(Bundle saved) {
         super.onCreate(saved); getWindow().setStatusBarColor(ink); getWindow().setNavigationBarColor(ink);
         voiceEnabled=getPreferences(MODE_PRIVATE).getBoolean("voice",true);
+        selectedVoiceName=getPreferences(MODE_PRIVATE).getString("voiceName","");
+        cueVolume=getPreferences(MODE_PRIVATE).getFloat("cueVolume",.55f);
+        breathSoundsEnabled=getPreferences(MODE_PRIVATE).getBoolean("breathSounds",true);
         speech=new TextToSpeech(this,status->{
             if(status==TextToSpeech.SUCCESS && speech!=null) {
                 int result=speech.setLanguage(Locale.ENGLISH);
                 speechReady=result!=TextToSpeech.LANG_MISSING_DATA && result!=TextToSpeech.LANG_NOT_SUPPORTED;
-                speech.setSpeechRate(1.15f);
-                if(active()) speakCue();
+                speech.setSpeechRate(.9f);
+                speech.setPitch(.95f);
+                loadVoices();
+                if(phase==Phase.HOME) renderVoicePanel();
+                if(active() && !breathSoundsEnabled) speakCue();
             }
         });
         showHome();
     }
-    @Override protected void onPause() { super.onPause(); if (active()) stopSession(); }
-    @Override protected void onDestroy() { handler.removeCallbacks(ticker); if(speech!=null) { speech.stop(); speech.shutdown(); } super.onDestroy(); }
+    @Override protected void onPause() { super.onPause(); stopRecording(); if (active()) stopSession(); }
+    @Override protected void onDestroy() { handler.removeCallbacks(ticker); stopRecording(); if(speech!=null) { speech.stop(); speech.shutdown(); } super.onDestroy(); }
     private boolean active() { return phase == Phase.INHALE || phase == Phase.EXHALE || phase == Phase.RETENTION || phase == Phase.RECOVERY || phase == Phase.RELEASE; }
     private int dp(int n) { return (int)(n * getResources().getDisplayMetrics().density + .5f); }
     private TextView label(String s, int size) { TextView v = new TextView(this); v.setText(s); v.setTextSize(size); v.setTextColor(ink); v.setGravity(Gravity.CENTER); v.setPadding(dp(8),dp(10),dp(8),dp(10)); return v; }
@@ -71,30 +90,90 @@ public class MainActivity extends Activity {
     private void spacer(int h) { View v=new View(this); page.addView(v,new LinearLayout.LayoutParams(1,dp(h))); }
     private int setting(String key,int fallback) { return getPreferences(MODE_PRIVATE).getInt(key,fallback); }
     private void showHome() {
+        stopRecording();
         phase=Phase.HOME; getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         base(getString(R.string.app_name));
         page.addView(label(getString(R.string.subtitle_home),16));
-        breaths=setting("breaths",30); rounds=setting("rounds",3); inhaleSeconds=setting("inhale",2); exhaleSeconds=setting("exhale",2);
+        breaths=setting("breaths",30); rounds=setting("rounds",3); inhaleSeconds=Math.max(2,setting("inhale",2)); exhaleSeconds=Math.max(2,setting("exhale",2));
         NumberPicker breathPicker=picker(getString(R.string.picker_breaths),10,60,breaths);
         NumberPicker roundPicker=picker(getString(R.string.picker_rounds),1,10,rounds);
-        NumberPicker inPicker=picker(getString(R.string.picker_inhale),1,8,inhaleSeconds);
-        NumberPicker outPicker=picker(getString(R.string.picker_exhale),1,8,exhaleSeconds);
+        NumberPicker inPicker=picker(getString(R.string.picker_inhale),2,8,inhaleSeconds);
+        NumberPicker outPicker=picker(getString(R.string.picker_exhale),2,8,exhaleSeconds);
         Switch voiceSwitch=new Switch(this); voiceSwitch.setText(getString(R.string.switch_voice)); voiceSwitch.setTextSize(17);
         voiceSwitch.setChecked(voiceEnabled); page.addView(voiceSwitch);
+        Switch breathSwitch=new Switch(this); breathSwitch.setText(getString(R.string.switch_recorded_cues)); breathSwitch.setTextSize(17);
+        breathSwitch.setChecked(breathSoundsEnabled); page.addView(breathSwitch);
+        button(getString(R.string.btn_preview_recorded_cues),()->playRecording(R.raw.breathe_in,()->playRecording(R.raw.breathe_out,null)));
+        voicePanel=new LinearLayout(this); voicePanel.setOrientation(LinearLayout.VERTICAL); page.addView(voicePanel);
+        renderVoicePanel();
         spacer(12);
         page.addView(label(getString(R.string.disclaimer),15));
         button(getString(R.string.btn_start_session),()->{
             breaths=breathPicker.getValue(); rounds=roundPicker.getValue(); inhaleSeconds=inPicker.getValue(); exhaleSeconds=outPicker.getValue();
             voiceEnabled=voiceSwitch.isChecked();
-            getPreferences(MODE_PRIVATE).edit().putInt("breaths",breaths).putInt("rounds",rounds).putInt("inhale",inhaleSeconds).putInt("exhale",exhaleSeconds).putBoolean("voice",voiceEnabled).apply(); startSession();
+            breathSoundsEnabled=breathSwitch.isChecked();
+            getPreferences(MODE_PRIVATE).edit().putInt("breaths",breaths).putInt("rounds",rounds).putInt("inhale",inhaleSeconds).putInt("exhale",exhaleSeconds).putBoolean("voice",voiceEnabled).putBoolean("breathSounds",breathSoundsEnabled).putString("voiceName",selectedVoiceName).putFloat("cueVolume",cueVolume).apply(); startSession();
         });
         button(getString(R.string.btn_daily_history),this::showHistory);
     }
     private NumberPicker picker(String caption,int min,int max,int value) {
         page.addView(label(caption,17)); NumberPicker p=new NumberPicker(this); p.setMinValue(min); p.setMaxValue(max); p.setValue(value); p.setWrapSelectorWheel(false); page.addView(p); return p;
     }
+    private void loadVoices() {
+        availableVoices.clear();
+        Set<Voice> voices=speech.getVoices();
+        if(voices!=null) for(Voice v:voices) {
+            if(v.getLocale()!=null && "en".equals(v.getLocale().getLanguage()) && !v.isNetworkConnectionRequired()) availableVoices.add(v);
+        }
+        availableVoices.sort(Comparator.comparingInt(Voice::getQuality).reversed().thenComparing(Voice::getName));
+        applyVoice();
+    }
+    private void applyVoice() {
+        if(!speechReady || speech==null) return;
+        if(selectedVoiceName.isEmpty()) { speech.setLanguage(Locale.ENGLISH); return; }
+        for(Voice v:availableVoices) if(v.getName().equals(selectedVoiceName)) { speech.setVoice(v); return; }
+        selectedVoiceName=""; speech.setLanguage(Locale.ENGLISH);
+    }
+    private void renderVoicePanel() {
+        if(voicePanel==null || phase!=Phase.HOME) return;
+        voicePanel.removeAllViews();
+        voicePanel.addView(label(getString(R.string.label_instruction_voice),17));
+        if(!speechReady) { voicePanel.addView(label(getString(R.string.label_waiting_speech_engine),14)); return; }
+        List<String> names=new ArrayList<>(); names.add(getString(R.string.label_phone_default));
+        for(Voice v:availableVoices) names.add(v.getLocale().toLanguageTag()+" · "+v.getName());
+        Spinner picker=new Spinner(this);
+        ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,names);
+        picker.setAdapter(adapter); voicePanel.addView(picker);
+        int selected=0;
+        for(int i=0;i<availableVoices.size();i++) if(availableVoices.get(i).getName().equals(selectedVoiceName)) { selected=i+1; break; }
+        picker.setSelection(selected);
+        picker.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+            public void onItemSelected(android.widget.AdapterView<?> parent,View view,int position,long id) {
+                selectedVoiceName=position==0?"":availableVoices.get(position-1).getName(); applyVoice();
+            }
+        });
+        TextView volume=label(getString(R.string.label_cue_volume, Math.round(cueVolume*100)),15); voicePanel.addView(volume);
+        SeekBar slider=new SeekBar(this); slider.setMax(100); slider.setProgress(Math.round(cueVolume*100)); voicePanel.addView(slider);
+        slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onStartTrackingTouch(SeekBar bar) {}
+            public void onStopTrackingTouch(SeekBar bar) {}
+            public void onProgressChanged(SeekBar bar,int value,boolean user) {
+                cueVolume=value/100f; volume.setText(getString(R.string.label_cue_volume, value));
+            }
+        });
+        Button preview=new Button(this); preview.setText(getString(R.string.btn_preview_voice)); voicePanel.addView(preview);
+        preview.setOnClickListener(v->speak(getString(R.string.sample_voice_preview),"preview"));
+    }
+    private void speak(String text,String id) {
+        if(!speechReady || speech==null) return;
+        Bundle params=new Bundle(); params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME,cueVolume);
+        speech.speak(text,TextToSpeech.QUEUE_FLUSH,params,id);
+    }
     private void startSession() {
         results=new JSONArray(); sessionSaved=false; round=1; breath=1; sessionStart=System.currentTimeMillis();
+        stopRecording();
+        if(speech!=null) speech.stop();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         base(getString(R.string.title_round_header, 1, rounds));
         headline=label(getString(R.string.title_inhale),34); headline.setTypeface(null,Typeface.BOLD); page.addView(headline);
@@ -105,9 +184,37 @@ public class MainActivity extends Activity {
         button(getString(R.string.btn_stop_session),this::stopSession);
         enter(Phase.INHALE); handler.removeCallbacks(ticker); handler.post(ticker);
     }
-    private void enter(Phase p) { phase=p; phaseStart=SystemClock.elapsedRealtime(); render(); speakCue(); }
+    private void enter(Phase p) { phase=p; phaseStart=SystemClock.elapsedRealtime(); recoveryCountdownPlayed=false; recoveryHolding=false; render(); speakCue(); }
     private void speakCue() {
-        if(!voiceEnabled || !speechReady || speech==null || !active()) return;
+        if(!active()) return;
+        if(breathSoundsEnabled) {
+            if(speech!=null) speech.stop();
+            switch(phase) {
+                case INHALE:
+                    if(playRecording(R.raw.breathe_in,null)) return;
+                    break;
+                case EXHALE:
+                case RELEASE:
+                    if(playRecording(R.raw.breathe_out,null)) return;
+                    break;
+                case RETENTION:
+                    if(playRecording(R.raw.hold,null)) return;
+                    break;
+                case RECOVERY:
+                    if(playRecording(R.raw.breathe_in,()->{
+                        if(phase==Phase.RECOVERY) {
+                            recoveryHolding=true;
+                            phaseStart=SystemClock.elapsedRealtime();
+                            playRecording(R.raw.hold,null);
+                            render();
+                        }
+                    })) return;
+                    break;
+                default: break;
+            }
+        }
+        if(phase==Phase.RECOVERY) recoveryHolding=true;
+        if(!voiceEnabled || !speechReady || speech==null) return;
         String cue;
         switch(phase) {
             case INHALE: cue=getString(R.string.cue_breathe_in); break;
@@ -117,16 +224,44 @@ public class MainActivity extends Activity {
             case RECOVERY: cue=getString(R.string.cue_recovery); break;
             default: return;
         }
-        speech.speak(cue,TextToSpeech.QUEUE_FLUSH,null,phase.name()+"-"+round+"-"+breath);
+        speak(cue,phase.name()+"-"+round+"-"+breath);
+    }
+    private boolean playRecording(int resource,Runnable onComplete) {
+        stopRecording();
+        try {
+            MediaPlayer player=MediaPlayer.create(this,resource);
+            if(player==null) return false;
+            recordedPlayer=player;
+            player.setVolume(cueVolume,cueVolume);
+            player.setOnCompletionListener(done->{
+                if(recordedPlayer!=done) return;
+                recordedPlayer=null;
+                done.release();
+                if(onComplete!=null) onComplete.run();
+            });
+            player.start();
+            return true;
+        } catch(RuntimeException error) { stopRecording(); return false; }
+    }
+    private void stopRecording() {
+        if(recordedPlayer!=null) {
+            MediaPlayer old=recordedPlayer; recordedPlayer=null;
+            try { old.setOnCompletionListener(null); old.release(); } catch(RuntimeException ignored) {}
+        }
     }
     private void advance() {
         if (!active()) return;
+        if(phase==Phase.RECOVERY && !recoveryHolding) return;
         long elapsed=SystemClock.elapsedRealtime()-phaseStart;
         if (phase==Phase.INHALE && elapsed>=inhaleSeconds*1000L) enter(Phase.EXHALE);
         else if (phase==Phase.EXHALE && elapsed>=exhaleSeconds*1000L) {
             if (breath==breaths) { enter(Phase.RETENTION); retentionStart=phaseStart; }
             else { breath++; enter(Phase.INHALE); }
         } else if (phase==Phase.RECOVERY && elapsed>=10000) enter(Phase.RELEASE);
+        else if (phase==Phase.RECOVERY && elapsed>=8000 && !recoveryCountdownPlayed) {
+            recoveryCountdownPlayed=true;
+            if(breathSoundsEnabled) playRecording(R.raw.countdown,null);
+        }
         else if (phase==Phase.RELEASE && elapsed>=3000) {
             if (round<rounds) { round++; breath=1; enter(Phase.INHALE); }
             else finish(false);
@@ -159,6 +294,7 @@ public class MainActivity extends Activity {
     private void stopSession() { if (!active()) return; finish(true); }
     private void finish(boolean stopped) {
         handler.removeCallbacks(ticker); getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        stopRecording();
         if(speech!=null) speech.stop();
         if (!sessionSaved) {
             try {
@@ -192,4 +328,5 @@ public class MainActivity extends Activity {
     }
     @Override @SuppressWarnings("deprecation")
     public void onBackPressed() { if(active()) stopSession(); else showHome(); }
+
 }

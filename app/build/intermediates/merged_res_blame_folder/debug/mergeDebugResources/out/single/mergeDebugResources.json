@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "com.example.breathguide.app-debug-4:/raw_countdown.mp3.flat",
+        "source": "com.example.breathguide.app-main-6:/raw/countdown.mp3"
+    },
+    {
+        "merged": "com.example.breathguide.app-debug-4:/raw_hold.mp3.flat",
+        "source": "com.example.breathguide.app-main-6:/raw/hold.mp3"
+    },
+    {
+        "merged": "com.example.breathguide.app-debug-4:/raw_breathe_out.mp3.flat",
+        "source": "com.example.breathguide.app-main-6:/raw/breathe_out.mp3"
+    },
+    {
+        "merged": "com.example.breathguide.app-debug-4:/raw_breathe_in.mp3.flat",
+        "source": "com.example.breathguide.app-main-6:/raw/breathe_in.mp3"
+    }
+]
