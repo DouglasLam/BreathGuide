@@ -1,0 +1,47 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.breathguide"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+7-->INJECTED
+8        android:minSdkVersion="26"
+8-->INJECTED
+9        android:targetSdkVersion="35" />
+9-->INJECTED
+10
+11    <application
+11-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:70-469
+12        android:allowBackup="true"
+12-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:83-109
+13        android:debuggable="true"
+14        android:extractNativeLibs="false"
+14-->INJECTED
+15        android:label="Breath Guide"
+15-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:110-138
+16        android:testOnly="true"
+17        android:theme="@android:style/Theme.Material.Light.NoActionBar"
+17-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:139-202
+18        android:usesCleartextTraffic="false" >
+18-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:203-239
+19        <activity
+19-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:240-455
+20            android:name="com.example.breathguide.MainActivity"
+20-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:250-278
+21            android:exported="true" >
+21-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:279-302
+22            <intent-filter>
+22-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:303-444
+23                <action android:name="android.intent.action.MAIN" />
+23-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:318-369
+23-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:326-367
+24
+25                <category android:name="android.intent.category.LAUNCHER" />
+25-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:369-428
+25-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:379-426
+26            </intent-filter>
+27        </activity>
+28    </application>
+29
+30</manifest>

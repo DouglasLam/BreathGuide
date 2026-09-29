@@ -1,0 +1,51 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-480
+INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-480
+INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-480
+INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-480
+	package
+		INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:11-69
+application
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:70-469
+INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:70-469
+	android:extractNativeLibs
+		INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml
+	android:label
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:110-138
+	android:allowBackup
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:83-109
+	android:theme
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:139-202
+	android:usesCleartextTraffic
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:203-239
+activity#com.example.breathguide.MainActivity
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:240-455
+	android:exported
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:279-302
+	android:name
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:250-278
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:303-444
+action#android.intent.action.MAIN
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:318-369
+	android:name
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:326-367
+category#android.intent.category.LAUNCHER
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:369-428
+	android:name
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:379-426
+uses-sdk
+INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml
+INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml
