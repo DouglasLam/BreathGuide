@@ -47,4 +47,21 @@
     <string name="label_cue_volume">Cue volume: %1$d%% of media volume</string>
     <string name="btn_preview_voice">Preview voice</string>
     <string name="sample_voice_preview">Breathe in. Breathe out. Relax and hold.</string>
+    <string name="step_counts">New session · 1 of 4</string>
+    <string name="step_pace">Breathing pace · 2 of 4</string>
+    <string name="step_cues">Cues and voice · 3 of 4</string>
+    <string name="step_ready">Ready to begin · 4 of 4</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_back_to_menu">Back to menu</string>
+    <string name="summary_counts">%1$d breaths per round · %2$d rounds</string>
+    <string name="summary_pace">%1$d seconds in · %2$d seconds out</string>
+    <string name="cues_on">Recorded cues on</string>
+    <string name="cues_off">Recorded cues off</string>
+    <string name="fallback_on">Spoken fallback on</string>
+    <string name="fallback_off">Spoken fallback off</string>
+    <string name="summary_cues">%1$s · %2$s</string>
+    <string name="dialog_stop_title">Stop this session?</string>
+    <string name="dialog_stop_message">Completed rounds will be saved.</string>
+    <string name="dialog_keep_going">Keep going</string>
 </resources>

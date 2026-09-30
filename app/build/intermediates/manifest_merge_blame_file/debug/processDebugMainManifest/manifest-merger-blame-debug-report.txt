@@ -12,7 +12,7 @@
 9-->INJECTED
 10
 11    <application
-11-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:70-469
+11-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:70-506
 12        android:allowBackup="true"
 12-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:83-109
 13        android:debuggable="true"
@@ -26,22 +26,24 @@
 18        android:usesCleartextTraffic="false" >
 18-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:203-239
 19        <activity
-19-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:240-455
+19-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:240-492
 20            android:name="com.example.breathguide.MainActivity"
 20-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:250-278
-21            android:exported="true" >
+21            android:exported="true"
 21-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:279-302
-22            <intent-filter>
-22-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:303-444
-23                <action android:name="android.intent.action.MAIN" />
-23-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:318-369
-23-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:326-367
-24
-25                <category android:name="android.intent.category.LAUNCHER" />
-25-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:369-428
-25-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:379-426
-26            </intent-filter>
-27        </activity>
-28    </application>
-29
-30</manifest>
+22            android:screenOrientation="portrait" >
+22-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:303-339
+23            <intent-filter>
+23-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:340-481
+24                <action android:name="android.intent.action.MAIN" />
+24-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:355-406
+24-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:363-404
+25
+26                <category android:name="android.intent.category.LAUNCHER" />
+26-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:406-465
+26-->/Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:416-463
+27            </intent-filter>
+28        </activity>
+29    </application>
+30
+31</manifest>

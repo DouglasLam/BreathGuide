@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-480
-INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-480
-INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-480
-INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-480
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-517
+INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-517
+INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-517
+INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:1-517
 	package
 		INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml
 	android:versionName
@@ -13,8 +13,8 @@ INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/Andro
 	xmlns:android
 		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:11-69
 application
-ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:70-469
-INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:70-469
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:70-506
+INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:70-506
 	android:extractNativeLibs
 		INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml
 	android:label
@@ -26,21 +26,23 @@ INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/Andro
 	android:usesCleartextTraffic
 		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:203-239
 activity#com.example.breathguide.MainActivity
-ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:240-455
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:240-492
+	android:screenOrientation
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:303-339
 	android:exported
 		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:279-302
 	android:name
 		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:250-278
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:303-444
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:340-481
 action#android.intent.action.MAIN
-ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:318-369
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:355-406
 	android:name
-		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:326-367
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:363-404
 category#android.intent.category.LAUNCHER
-ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:369-428
+ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:406-465
 	android:name
-		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:379-426
+		ADDED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml:1:416-463
 uses-sdk
 INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/douglaslam/workspace/android/BreathGuide/app/src/main/AndroidManifest.xml
