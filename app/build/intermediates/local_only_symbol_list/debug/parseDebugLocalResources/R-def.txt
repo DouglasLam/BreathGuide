@@ -44,6 +44,10 @@ string picker_rounds
 string round_history_format
 string round_result_format
 string sample_voice_preview
+string section_breath_duration
+string section_rounds
+string section_summary
+string section_voice_settings
 string step_counts
 string step_cues
 string step_pace

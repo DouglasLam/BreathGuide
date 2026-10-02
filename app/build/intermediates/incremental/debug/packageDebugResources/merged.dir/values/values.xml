@@ -40,6 +40,10 @@
     <string name="round_history_format">Round %1$d:  %2$s</string>
     <string name="round_result_format">Round %1$d   %2$s</string>
     <string name="sample_voice_preview">Breathe in. Breathe out. Relax and hold.</string>
+    <string name="section_breath_duration">Breath Duration</string>
+    <string name="section_rounds">Rounds</string>
+    <string name="section_summary">Summary</string>
+    <string name="section_voice_settings">Voice Settings</string>
     <string name="step_counts">New session · 1 of 4</string>
     <string name="step_cues">Cues and voice · 3 of 4</string>
     <string name="step_pace">Breathing pace · 2 of 4</string>

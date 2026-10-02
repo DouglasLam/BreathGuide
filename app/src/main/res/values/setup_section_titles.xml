@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="section_rounds">Rounds</string>
+    <string name="section_breath_duration">Breath Duration</string>
+    <string name="section_voice_settings">Voice Settings</string>
+    <string name="section_summary">Summary</string>
+</resources>

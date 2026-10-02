@@ -120,16 +120,16 @@ public class MainActivity extends Activity {
         showCountStep();
     }
     private void showCountStep() {
-        phase=Phase.SETUP_COUNTS; base(getString(R.string.step_counts));
-        NumberPicker breathPicker=picker(getString(R.string.picker_breaths),10,60,breaths);
+        phase=Phase.SETUP_COUNTS; base(getString(R.string.section_rounds));
         NumberPicker roundPicker=picker(getString(R.string.picker_rounds),1,10,rounds);
+        NumberPicker breathPicker=picker(getString(R.string.picker_breaths),10,60,breaths);
         breathPicker.setOnValueChangedListener((p,oldValue,newValue)->breaths=newValue);
         roundPicker.setOnValueChangedListener((p,oldValue,newValue)->rounds=newValue);
         button(getString(R.string.btn_next),()->{ breaths=breathPicker.getValue(); rounds=roundPicker.getValue(); showPaceStep(); });
         button(getString(R.string.btn_back),this::showHome);
     }
     private void showPaceStep() {
-        phase=Phase.SETUP_PACE; base(getString(R.string.step_pace));
+        phase=Phase.SETUP_PACE; base(getString(R.string.section_breath_duration));
         NumberPicker inPicker=picker(getString(R.string.picker_inhale),2,8,inhaleSeconds);
         NumberPicker outPicker=picker(getString(R.string.picker_exhale),1,8,exhaleSeconds);
         inPicker.setOnValueChangedListener((p,oldValue,newValue)->inhaleSeconds=newValue);
@@ -139,7 +139,7 @@ public class MainActivity extends Activity {
     }
     private void showCueStep() {
         stopRecording();
-        phase=Phase.SETUP_CUES; base(getString(R.string.step_cues));
+        phase=Phase.SETUP_CUES; base(getString(R.string.section_voice_settings));
         Switch voiceSwitch=new Switch(this); voiceSwitch.setText(getString(R.string.switch_voice)); voiceSwitch.setTextSize(17);
         voiceSwitch.setChecked(voiceEnabled); page.addView(voiceSwitch);
         voiceSwitch.setOnCheckedChangeListener((b,checked)->voiceEnabled=checked);
@@ -153,7 +153,7 @@ public class MainActivity extends Activity {
         button(getString(R.string.btn_back),()->{ stopRecording(); if(speech!=null) speech.stop(); showPaceStep(); });
     }
     private void showReadyStep() {
-        phase=Phase.SETUP_READY; base(getString(R.string.step_ready));
+        phase=Phase.SETUP_READY; base(getString(R.string.section_summary));
         page.addView(label(getString(R.string.summary_counts, breaths, rounds),20));
         page.addView(label(getString(R.string.summary_pace, inhaleSeconds, exhaleSeconds),20));
         String cues=getString(breathSoundsEnabled ? R.string.cues_on : R.string.cues_off);

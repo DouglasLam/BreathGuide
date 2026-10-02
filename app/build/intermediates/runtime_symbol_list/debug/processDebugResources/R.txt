@@ -42,6 +42,10 @@ int string picker_rounds 0x7f020024
 int string round_history_format 0x7f020025
 int string round_result_format 0x7f020026
 int string sample_voice_preview 0x7f020027
+int string section_breath_duration 0x7f020041
+int string section_rounds 0x7f020042
+int string section_summary 0x7f020043
+int string section_voice_settings 0x7f020044
 int string step_counts 0x7f020028
 int string step_cues 0x7f020029
 int string step_pace 0x7f02002a
